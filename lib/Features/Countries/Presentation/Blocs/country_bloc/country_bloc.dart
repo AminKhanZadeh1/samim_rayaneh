@@ -10,10 +10,10 @@ part 'country_state.dart';
 
 class CountryBloc extends Bloc<CountryEvent, CountryState> {
   final CountriesRepo _countriesRepo;
-  final FetchCountriesUseCase _fetchCountriesUseCase;
-  CountryBloc(this._countriesRepo, this._fetchCountriesUseCase)
-      : super(CountryInitial()) {
+  late FetchCountriesUseCase _fetchCountriesUseCase;
+  CountryBloc(this._countriesRepo) : super(CountryInitial()) {
     on<CountryEvent>((event, emit) async {
+      _fetchCountriesUseCase = FetchCountriesUseCase(_countriesRepo);
       if (event is FetchCountriesEvent) {
         emit(CountriesLoadingState());
 
@@ -22,9 +22,9 @@ class CountryBloc extends Bloc<CountryEvent, CountryState> {
         result.fold(
           (failure) {
             if (failure is NetworkFailure) {
-              emit(ErrorFetchingState('اتصال شبکه را بررسی کنید'));
+              emit(ErrorFetchingState('!اتصال شبکه را بررسی کنید'));
             } else if (failure is TimeoutFailure) {
-              emit(ErrorFetchingState('!پایان زمان درخواست'));
+              emit(ErrorFetchingState('!اتصال شبکه را بررسی کنید'));
             } else if (failure is ServerFailure) {
               emit(ErrorFetchingState(failure.message));
             } else {
