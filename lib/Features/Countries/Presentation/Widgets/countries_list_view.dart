@@ -11,7 +11,7 @@ class CountriesListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemExtent: 130,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 5),
       itemCount: state.countries.length,
       itemBuilder: (context, index) {
         CountryEntity item = state.countries[index];
@@ -28,10 +28,13 @@ class CountriesListView extends StatelessWidget {
               errorWidget: (context, url, error) => Icon(Icons.error),
               fit: BoxFit.cover,
             ),
-            title: Text("نام: ${item.name}"),
+            title: Text(
+              "نام: ${item.name}",
+              style: TextStyle(fontSize: 12),
+            ),
             trailing: Text(
               'پایتخت: ${item.capital}',
-              style: TextStyle(fontSize: 13),
+              style: TextStyle(fontSize: 11),
             ),
           ),
         );
