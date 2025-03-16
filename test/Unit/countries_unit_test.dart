@@ -12,11 +12,11 @@ import 'countries_unit_test.mocks.dart';
 
 void main() {
   late MockCountriesApiService mockApiService;
-  late MockCountriesRepoImpl mockProductRepoImpl;
+  late MockCountriesRepoImpl mockCountriesRepoImpl;
 
   setUp(() {
     mockApiService = MockCountriesApiService();
-    mockProductRepoImpl = MockCountriesRepoImpl();
+    mockCountriesRepoImpl = MockCountriesRepoImpl();
   });
 
   test('getCountries should return a list of CountryEntity', () async {
@@ -44,7 +44,7 @@ void main() {
     when(mockApiService.getCountries())
         .thenAnswer((_) async => Right(fakeJson));
 
-    when(mockProductRepoImpl.getCountries())
+    when(mockCountriesRepoImpl.getCountries())
         .thenAnswer((_) async => (await mockApiService.getCountries()).fold(
               (failure) => Left(failure),
               (data) => Right(data
@@ -52,7 +52,7 @@ void main() {
                   .toList()),
             ));
 
-    final result = await mockProductRepoImpl.getCountries();
+    final result = await mockCountriesRepoImpl.getCountries();
 
     result.fold(
       (failure) => fail('Expected success but got failure: $failure'),
